@@ -4,13 +4,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.example.daos.ProductDao;
+import com.example.models.Product;
+
 public class App {
     private static final String PASSWORD = "";
     private static final String USERNAME = "gitpod";
     private static final String JDBC_URL = "jdbc:postgresql://localhost/postgres";
 
     public static void main(String[] args) {
-        new App();
+        var product = new Product();
+        product.setName("Eugenio aprovado em Primeiro");
+        product.setPrice(15000);
+        try {
+            ProductDao dao = new ProductDao();
+            //dao.Create(product);
+            var products = dao.FindAll();
+            products.stream().filter(p -> p.getPrice() > 13000).forEach(item -> System.out.println(item.getName()));
+            //products.forEach(item -> System.out.println(item.getName()));
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        };
+
     }
 
     public App(){

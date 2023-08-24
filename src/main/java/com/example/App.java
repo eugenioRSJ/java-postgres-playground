@@ -1,8 +1,13 @@
 package com.example;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.List;
 
 import com.example.daos.ProductDao;
 import com.example.models.Product;
@@ -13,7 +18,8 @@ public class App {
     private static final String JDBC_URL = "jdbc:postgresql://localhost/postgres";
 
     public static void main(String[] args) {
-        var product = new Product();
+        /*
+         var product = new Product();
         product.setName("Eugenio aprovado em Primeiro");
         product.setPrice(15000);
         try {
@@ -27,9 +33,68 @@ public class App {
             // TODO Auto-generated catch block
             e.printStackTrace();
         };
+         */
+        int[] array = {10, 20, 50, 1, 5, 4, 6};
+        //buble_sort(array);
+        selection_sort(array);
+        System.out.print(Arrays.toString(array));
+
+        System.out.println(searchBinary(array, 90));
+        
+    }
+
+    public static int searchBinary(int[] array, int target){
+        if(array.length <= 0) return -1;
+        int left = 0;
+        int right =array.length -1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(array[mid] == target){
+                return mid;
+            } else if(target > array[mid]){
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
 
     }
 
+    public static void selection_sort(int[] array){
+        if(array.length <= 0) return;
+        for(int i =0; i< array.length - 1; i++){
+            var minValueIndice = i;
+            for(int j=i+1; j < array.length; j++){
+                if(array[minValueIndice] > array[j]){
+                    minValueIndice = j;
+                }
+            }
+            var temp = array[i];
+            array[i] = array[minValueIndice];
+            array[minValueIndice] = temp;
+            System.out.println(Arrays.toString(array));
+        }
+    }
+    public static void buble_sort(int[] array){
+        if(array.length <= 0) return;
+        for (int i = 0 ; i < array.length -1 ; i++) {
+            boolean swap = false;
+            for (int j = 0; j < array.length - i - 1; j++){
+                if(array[j] > array[j+1]){
+                    int temp = array[j+1];
+                    array[j+1] = array[j];
+                    array[j] = temp;
+                    swap = true;
+                }
+                System.out.println(Arrays.toString(array));
+            }
+            if(!swap){
+                break;
+            }
+        } 
+        System.out.print(Arrays.toString(array));
+    }
     public App(){
         try(var conn = getConnection()){
             carregarDriverJDBC();
